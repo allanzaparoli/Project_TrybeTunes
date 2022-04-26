@@ -56,24 +56,21 @@ export default function Search() {
         {' '}
         { nomeAlbum }
         { result.length === 0 ? <p>Nenhum álbum foi encontrado</p>
-          : result.map((element) => {
-            console.log(element);
-            return (
-              <div key={ element.collectionId }>
-                <Link
-                  data-testid={ `link-to-album-${element.collectionId}` }
-                  to={ `/album/${element.collectionId}` }
-                >
-                  <img
-                    alt="imagem"
-                    key={ element.artistaId }
-                    src={ element.artworkUrl100 }
-                  />
-                  <p>{ element.collectionName }</p>
-                </Link>
-              </div>
-            );
-          })}
+          : result.map((element) => (
+            <div key={ element.collectionId }>
+              <Link
+                data-testid={ `link-to-album-${element.collectionId}` }
+                to={ `/album/${element.collectionId}` }
+              >
+                <img
+                  alt="imagem"
+                  key={ element.artistaId }
+                  src={ element.artworkUrl100 }
+                />
+                <p>{ element.collectionName }</p>
+              </Link>
+            </div>
+          ))}
       </h2>
     </div>
   );
