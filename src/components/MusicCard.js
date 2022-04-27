@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default function MusicCard(props) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function FavoritMusic() {
+      await getFavoriteSongs();
+      setLoading(false);
+    }
+    FavoritMusic();
+  }, []);
 
   async function favoritar(musica) {
     setLoading(true);
@@ -24,15 +32,6 @@ export default function MusicCard(props) {
       </h3>
       { getMusica.length === 0 ? <h3>Carregando...</h3> : getMusica.map((element) => (
         <>
-          <label htmlFor="Favorita">
-            Favorita
-            <input
-              id="Favorita"
-              type="checkbox"
-              data-testid={ `checkbox-music-${element.trackId}` }
-              onChange={ () => favoritar(element.trackId) }
-            />
-          </label>
           <audio
             data-testid="audio-component"
             key={ element.trackId }
@@ -45,6 +44,19 @@ export default function MusicCard(props) {
               audio
             </code>
           </audio>
+          <br />
+          <span>{element.trackName}</span>
+          <br />
+          <label htmlFor="Favorita">
+            Favorita
+            <input
+              id="Favorita"
+              type="checkbox"
+              data-testid={ `checkbox-music-${element.trackId}` }
+              onChange={ () => favoritar(element.trackId) }
+            />
+          </label>
+          <br />
         </>
       )) }
     </div>
